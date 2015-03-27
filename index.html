@@ -1,0 +1,176 @@
+<!-- TODO: undeletable default value for input URL
+			check if URL is valid
+			fix LOG OUT button
+			fix FOOTER
+			fix error MESSAGES
+ -->
+
+
+<!doctype html>
+<html lang="en" ng-app="list">
+	<head>
+		<meta charset="utf-8">
+		
+		<link rel="icon" href="img/favicon.ico">
+		<title>Cat Organized</title>
+	
+		<script src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/myapp.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">	
+			$(document).ready(function(){
+				$('[data-toggle="tooltip"]').tooltip({html:true});
+			});
+			
+			$(window).load(function () {
+				$('#form').attr('style', 'display: block !important');
+				var height = $('[name="pic"]').outerHeight();
+				$('#form').attr('style', 'disaplay: none !important');
+				var style = '<style>.picPreview { height:'+height+'px !important; width: auto;}</style>';
+				$('html > head').append(style);
+			});	
+			
+			function setTooltip(){
+				$('[data-toggle="tooltip"]').tooltip({html:true});
+			}
+		</script>
+		
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/lavish-bootstrap.css" rel="stylesheet">
+	</head>
+	<body ng-controller="CatController as catCtrl">
+		<div class="container" id="main">
+			<div class="page-header row">
+				<h1 class="col-md-7">Cat Organized<br> <small>Keep All Your Cats' Details in One Place </small></h1>
+				<div class="col-md-4">
+					<div class="input-group pull-right">
+						<input type="text" class="form-control" placeholder="Search for...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button">Go!</button>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<div class="dropdown pull-right">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+							<span class="glyphicon glyphicon-user"></span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">My Profile</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Settings</a></li>
+							<li role="presentation" class="divider"></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Log Out</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="container" ng-controller="TabController as tabCtrl">
+				<div class="left-menu col-md-3">
+					<ul class="nav nav-pills nav-stacked">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Profile</a></li>
+						<li><a href="#">Messages</a></li>
+					</ul>
+				</div>
+				<div class="content col-md-6">
+					<ul class="nav nav-tabs">
+						<li ng-class="{'active': tabCtrl.checkTab(1)}"><a href ng-click="tabCtrl.setTab(1)" onClick="setTooltip();">My cats</a></li>
+						<li ng-class="{'active': tabCtrl.checkTab(2)}"><a href ng-click="tabCtrl.setTab(2)">Add a cat</a></li>
+					</ul>
+					<div class="panel panel-default" ng-show="tabCtrl.checkTab(1)">
+						<div class="panel-body">
+							<table class="table table-hover">
+								<tbody>
+									<tr ng-repeat="cat in catCtrl.cats" ng-click="catCtrl.setCurCat($index);">
+										<td>
+											<span class="thumbnail" data-toggle="tooltip" data-placement="right" title="<img class='preview' src='{{cat.pic}}'>">
+												<img src="{{cat.pic}}" alt="{{cat.name}}">
+											</span>
+											<span class="description">
+												{{cat.name}}<span ng-show="catCtrl.cats[$index].year">, {{catCtrl.countAge(cat.year)}} old</span>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="form" class="panel panel-default" ng-show="tabCtrl.checkTab(2)" ng-controller="AddController as addCtrl">
+						<div class="panel-body">
+							<form class="form-horizontal" role="form" name="newCat" ng-submit="addCtrl.addCats(newCat.$valid, newCat)" novalidate>
+								<div ng-repeat="catToAdd in addCtrl.catsToAdd" ng-form="repeatForm">
+									<div class="form-group form-group-sm">
+										<label class="control-label col-md-3" for="name">Name</label>
+										<div class="controls">
+											<input class="col-md-5" type="text" name="name" class="form-control" ng-model="catToAdd.name" required />
+											<span class="col-md-4" class="help-inline" ng-show="newCat.$submitted && repeatForm.name.$error.required">Enter your cat's name!</span>
+										</div>
+									</div>
+									<div class="form-group form-group-sm">
+										<label class="control-label col-md-3" for="year">Birth Year</label>
+										<div class="controls">
+											<input class="col-md-2" type="text" name="year" class="form-control" ng-model="catToAdd.year" year />
+											<span class="col-md-7" class="help-inline" ng-show="newCat.$submitted && repeatForm.year.$error.year">Year must be a number between {{addCtrl.minYear}} and {{addCtrl.maxYear}}!</span>
+										</div>
+									</div>
+									<div class="form-group form-group-sm">
+										<label class="control-label col-md-3" for="pic">Image URL</label>
+										<div class="controls">
+											<input class="col-md-6" type="url" name="pic" class="form-control" placeholder="http://" ng-model="catToAdd.pic" image/>	
+											<img class="picPreview col-md-2" src="{{addCtrl.setPreview(repeatForm.pic.$valid, repeatForm.pic.$viewValue)}}" />
+											<span class="help-inline col-md-5 col-md-offset-3" ng-show="newCat.$submitted && repeatForm.pic.$invalid">Image not found!</span>
+										</div>
+									</div>
+									<div class="form-group form-group-sm">
+										<label class="control-label col-md-3" for="breed">Breed</label>
+										<div class="controls">
+											<select name="breed" ng-model="catToAdd.breed">
+												<option value="" selected="selected">--</option>
+												<option value="Maine Coon">Maine Coon</option>
+												<option value="Birman">Birman</option>
+												<option value="Norwegian Forest Cat">Norwegian Forest Cat</option>
+												<option value="Persian">Persian</option>
+												<option value="Russian Blue">Russian Blue</option>
+												<option value="Siamese">Siamese</option>
+												<option value="Sphynx">Sphynx</option>
+												<option value="Turkish Angora">Turkish Angora</option>
+											</select>
+										</div>
+									</div>
+									<button class="btn btn-default" ng-show="addCtrl.moreThenOne()" ng-click="addCtrl.deleteCat($index)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+									<hr>
+								</div>
+								<button type="button" class="btn btn-default" ng-click="newCat.$valid && addCtrl.addMore(newCat)">New cat</button>
+								<button type="submit" class="btn btn-default">Submit</button>
+							</form>	
+						</div>
+					</div>
+				</div>
+				<div class="right-panel col-md-3">
+					<div class="panel panel-default" ng-if="catCtrl.curCat">
+						<div class="panel-heading clearfix">
+							<div class="panel-title pull-left">{{catCtrl.curCat.name}}</div>
+							<div class="close pull-right" ng-click="catCtrl.curCat = null">x</div>
+						</div>
+						<div class="panel-body">
+							<img class="img-responsive center-block" src="{{catCtrl.curCat.pic}}" alt="{{catCtrl.curCat.name}}"><br/>
+							<ul class="list-group">
+								<li class="list-group-item" ng-show="catCtrl.curCat.year"><b>Born in</b> {{catCtrl.curCat.year}}</li>
+								<li class="list-group-item" ng-show="catCtrl.curCat.breed"><b>Breed:</b> {{catCtrl.curCat.breed}}</li>
+							</ul>
+						</div>
+					</div>
+					<img id="placeholderPaws" src="img/pawprints.png" ng-if="!catCtrl.curCat">
+				</div>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<p class="text-muted">Olga Orlova, 2015</p>
+			</div>
+		</footer>
+	</body>
+</html>
