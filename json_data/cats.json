@@ -1,0 +1,44 @@
+[
+	{
+		"id": 1,
+		"name": "Tardar Sauce",
+		"byear": 2012,
+		"pic": "http://www.tud.ttu.ee/web/Olga.Orlova1/portfolio/3/img/cat1.jpg",
+		"breed": "Mixed"
+	},
+	{
+		"id": 2,
+		"name": "Einstein",
+		"byear": 2005,
+		"pic": "http://www.tud.ttu.ee/web/Olga.Orlova1/portfolio/3/img/cat2.jpg",
+		"breed": "Maine Coon Cat"
+	},
+	{
+		"id": 3,
+		"name": "Furball",
+		"byear": 2010,
+		"pic": "http://www.tud.ttu.ee/web/Olga.Orlova1/portfolio/3/img/cat3.jpg",
+		"breed": "Sphynx"
+	},
+	{
+		"id": 4,
+		"name": "Hercules",
+		"byear": null,
+		"pic": "http://www.tud.ttu.ee/web/Olga.Orlova1/portfolio/3/img/cat4.jpg",
+		"breed": "Ragdoll"
+	},
+	{
+		"id": 5,
+		"name": "Garfi",
+		"byear": null,
+		"pic": "http://www.tud.ttu.ee/web/Olga.Orlova1/portfolio/3/img/cat5.jpg",
+		"breed": null
+	},
+	{
+		"id": 6,
+		"name": "Pizza Guy",
+		"byear": null,
+		"pic": "http://www.tud.ttu.ee/web/Olga.Orlova1/portfolio/3/img/default.png",
+		"breed": null
+	}
+]

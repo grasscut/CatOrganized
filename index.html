@@ -1,11 +1,3 @@
-<!-- TODO: undeletable default value for input URL
-			check if URL is valid
-			fix LOG OUT button
-			fix FOOTER
-			fix error MESSAGES
- -->
-
-
 <!doctype html>
 <html lang="en" ng-app="list">
 	<head>
@@ -18,23 +10,6 @@
 		<script type="text/javascript" src="js/myapp.js"></script>
 		<script src="js/jquery-1.11.2.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script type="text/javascript">	
-			$(document).ready(function(){
-				$('[data-toggle="tooltip"]').tooltip({html:true});
-			});
-			
-			$(window).load(function () {
-				$('#form').attr('style', 'display: block !important');
-				var height = $('[name="pic"]').outerHeight();
-				$('#form').attr('style', 'disaplay: none !important');
-				var style = '<style>.picPreview { height:'+height+'px !important; width: auto;}</style>';
-				$('html > head').append(style);
-			});	
-			
-			function setTooltip(){
-				$('[data-toggle="tooltip"]').tooltip({html:true});
-			}
-		</script>
 		
 		<link href="css/style.css" rel="stylesheet">
 		<link href="css/bootstrap.css" rel="stylesheet">
@@ -43,54 +18,54 @@
 	<body ng-controller="CatController as catCtrl">
 		<div class="container" id="main">
 			<div class="page-header row">
-				<h1 class="col-md-7">Cat Organized<br> <small>Keep All Your Cats' Details in One Place </small></h1>
-				<div class="col-md-4">
+				<h1 class="col-md-7 col-sm-12 col-xs-12">Cat Organized<br> <small>Keep All Your Cats' Details in One Place </small></h1>
+				<div class="col-md-4 col-sm-10 col-xs-10">
 					<div class="input-group pull-right">
 						<input type="text" class="form-control" placeholder="Search for...">
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="button">Go!</button>
+							<button id="searchBtn" class="btn btn-default" type="button" title="under construction">Go!</button>
 						</span>
 					</div>
 				</div>
-				<div class="col-md-1">
+				<div class="col-md-1 col-sm-2 col-xs-2">
 					<div class="dropdown pull-right">
 						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 							<span class="glyphicon glyphicon-user"></span>
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">My Profile</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Settings</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#" title="under construction">My Profile</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#" title="under construction">Settings</a></li>
 							<li role="presentation" class="divider"></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Log Out</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#" title="under construction">Log Out</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="container" ng-controller="TabController as tabCtrl">
-				<div class="left-menu col-md-3">
+			<div id="wrapper" class="container">
+				<div class="left-menu col-md-3 col-sm-3 col-xs-4">
 					<ul class="nav nav-pills nav-stacked">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Profile</a></li>
-						<li><a href="#">Messages</a></li>
+						<li class="active"><a href="#" title="under construction">Home</a></li>
+						<li><a href="#" title="under construction">Profile</a></li>
+						<li><a href="#" title="under construction">Messages</a></li>
 					</ul>
 				</div>
-				<div class="content col-md-6">
+				<div class="content col-md-6 col-sm-9 col-xs-8" ng-controller="TabController as tabCtrl">
 					<ul class="nav nav-tabs">
-						<li ng-class="{'active': tabCtrl.checkTab(1)}"><a href ng-click="tabCtrl.setTab(1)" onClick="setTooltip();">My cats</a></li>
+						<li ng-class="{'active': tabCtrl.checkTab(1)}"><a href ng-click="tabCtrl.setTab(1)">My cats</a></li>
 						<li ng-class="{'active': tabCtrl.checkTab(2)}"><a href ng-click="tabCtrl.setTab(2)">Add a cat</a></li>
 					</ul>
 					<div class="panel panel-default" ng-show="tabCtrl.checkTab(1)">
 						<div class="panel-body">
 							<table class="table table-hover">
 								<tbody>
-									<tr ng-repeat="cat in catCtrl.cats" ng-click="catCtrl.setCurCat($index);">
+									<tr ng-repeat="cat in cats" ng-click="catCtrl.setCurCat($index);">
 										<td>
-											<span class="thumbnail" data-toggle="tooltip" data-placement="right" title="<img class='preview' src='{{cat.pic}}'>">
+											<span class="thumbnail">
 												<img src="{{cat.pic}}" alt="{{cat.name}}">
 											</span>
 											<span class="description">
-												{{cat.name}}<span ng-show="catCtrl.cats[$index].year">, {{catCtrl.countAge(cat.year)}} old</span>
+												{{cat.name}}<span ng-show="cats[$index].byear">, {{catCtrl.countAge(cat.byear)}} old</span>
 											</span>
 										</td>
 									</tr>
@@ -98,72 +73,114 @@
 							</table>
 						</div>
 					</div>
-					<div id="form" class="panel panel-default" ng-show="tabCtrl.checkTab(2)" ng-controller="AddController as addCtrl">
+					<div id="form" class="panel panel-default" ng-show="tabCtrl.checkTab(2)">
 						<div class="panel-body">
-							<form class="form-horizontal" role="form" name="newCat" ng-submit="addCtrl.addCats(newCat.$valid, newCat)" novalidate>
-								<div ng-repeat="catToAdd in addCtrl.catsToAdd" ng-form="repeatForm">
-									<div class="form-group form-group-sm">
-										<label class="control-label col-md-3" for="name">Name</label>
-										<div class="controls">
-											<input class="col-md-5" type="text" name="name" class="form-control" ng-model="catToAdd.name" required />
-											<span class="col-md-4" class="help-inline" ng-show="newCat.$submitted && repeatForm.name.$error.required">Enter your cat's name!</span>
+							<form class="form-horizontal" role="form" name="newCat" ng-submit="catCtrl.addCats(newCat.$valid, newCat)" novalidate>
+								<div ng-repeat="catToAdd in catsToAdd" ng-form="repeatForm">
+									<div class="form-group form-group-sm ng-class:{'has-success': newCat.$submitted &&repeatForm.name.$valid, 'has-error': newCat.$submitted && repeatForm.name.$invalid}">
+										<label class="control-label col-md-3 col-sm-2 col-xs-12" for="name">Name</label>
+										<div class="controls col-md-5 col-sm-6 col-xs-12">
+											<input class="form-control" type="text" name="name" ng-model="catToAdd.name" required />
 										</div>
+										<span class="help-inline col-md-4 col-sm-4 col-xs-12" ng-show="newCat.$submitted && repeatForm.name.$error.required">Enter your cat's name!</span>
 									</div>
-									<div class="form-group form-group-sm">
-										<label class="control-label col-md-3" for="year">Birth Year</label>
-										<div class="controls">
-											<input class="col-md-2" type="text" name="year" class="form-control" ng-model="catToAdd.year" year />
-											<span class="col-md-7" class="help-inline" ng-show="newCat.$submitted && repeatForm.year.$error.year">Year must be a number between {{addCtrl.minYear}} and {{addCtrl.maxYear}}!</span>
+									<div class="form-group form-group-sm ng-class:{'has-success': newCat.$submitted &&repeatForm.byear.$valid, 'has-error': newCat.$submitted && repeatForm.byear.$invalid}">
+										<label class="control-label col-md-3 col-sm-2 col-xs-12" for="byear">Birth Year</label>
+										<div class="controls col-md-4 col-sm-4 col-xs-12">
+											<input class="form-control" type="text" name="byear" ng-model="catToAdd.byear" year />
 										</div>
+										<span class="help-inline col-md-5 col-sm-6 col-xs-12" ng-show="newCat.$submitted && repeatForm.byear.$error.year">Year must be a number between {{minYear}} and {{maxYear}}!</span>
 									</div>
-									<div class="form-group form-group-sm">
-										<label class="control-label col-md-3" for="pic">Image URL</label>
-										<div class="controls">
-											<input class="col-md-6" type="url" name="pic" class="form-control" placeholder="http://" ng-model="catToAdd.pic" image/>	
-											<img class="picPreview col-md-2" src="{{addCtrl.setPreview(repeatForm.pic.$valid, repeatForm.pic.$viewValue)}}" />
-											<span class="help-inline col-md-5 col-md-offset-3" ng-show="newCat.$submitted && repeatForm.pic.$invalid">Image not found!</span>
+									<div class="form-group form-group-sm ng-class:{'has-success': newCat.$submitted &&repeatForm.pic.$valid, 'has-error': newCat.$submitted && repeatForm.pic.$invalid}">
+										<label class="control-label col-md-3 col-sm-2 col-xs-12" for="pic">Image URL</label>
+										<div class="controls col-md-7 col-sm-7 col-xs-12">
+											<input id="imgInputSm" class="form-control" type="url" name="pic" placeholder="http://" ng-model="catToAdd.pic" image />	
 										</div>
+										<img id="picPreviewSm" class="hidden-sm hidden-xs" src="{{catCtrl.setPreview(repeatForm.pic.$valid, repeatForm.pic.$viewValue)}}" />
+										<span class="help-inline col-md-offset-3 col-md-9 col-sm-3 col-xs-12" ng-show="newCat.$submitted && repeatForm.pic.$invalid">Image not found!</span>
 									</div>
-									<div class="form-group form-group-sm">
-										<label class="control-label col-md-3" for="breed">Breed</label>
-										<div class="controls">
-											<select name="breed" ng-model="catToAdd.breed">
+									<div class="form-group form-group-sm ng-class:{'has-success': newCat.$submitted &&repeatForm.breed.$valid, 'has-error': newCat.$submitted && repeatForm.breed.$invalid}">
+										<label class="control-label col-md-3 col-sm-2 col-xs-12" for="breed">Breed</label>
+										<div class="controls col-md-6 col-sm-7 col-xs-12">
+											<select class="form-control" name="breed" ng-model="catToAdd.breed" ng-options="breed for breed in breeds">
 												<option value="" selected="selected">--</option>
-												<option value="Maine Coon">Maine Coon</option>
-												<option value="Birman">Birman</option>
-												<option value="Norwegian Forest Cat">Norwegian Forest Cat</option>
-												<option value="Persian">Persian</option>
-												<option value="Russian Blue">Russian Blue</option>
-												<option value="Siamese">Siamese</option>
-												<option value="Sphynx">Sphynx</option>
-												<option value="Turkish Angora">Turkish Angora</option>
 											</select>
 										</div>
 									</div>
-									<button class="btn btn-default" ng-show="addCtrl.moreThenOne()" ng-click="addCtrl.deleteCat($index)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+									<button class="btn btn-default" ng-show="catCtrl.moreThenOne()" ng-click="catCtrl.deleteCat($index)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 									<hr>
 								</div>
-								<button type="button" class="btn btn-default" ng-click="newCat.$valid && addCtrl.addMore(newCat)">New cat</button>
+								<button type="button" class="btn btn-default" ng-click="newCat.$valid && catCtrl.addMore(newCat)">New cat</button>
 								<button type="submit" class="btn btn-default">Submit</button>
 							</form>	
 						</div>
 					</div>
 				</div>
-				<div class="right-panel col-md-3">
-					<div class="panel panel-default" ng-if="catCtrl.curCat">
+				<div class="right-panel col-md-3 hidden-sm hidden-xs">
+					<div class="panel panel-default" ng-if="curCat">
 						<div class="panel-heading clearfix">
-							<div class="panel-title pull-left">{{catCtrl.curCat.name}}</div>
-							<div class="close pull-right" ng-click="catCtrl.curCat = null">x</div>
+							<div class="panel-title pull-left">{{curCat.name}}</div>
+							<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editCurCat" ng-click="catCtrl.setEditCat(editCatForm)"></span>
+							<div class="modal fade col-md-12" id="editCurCat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="form" name="editCat">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" ng-click="catCtrl.clearForm(editCatForm);" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Edit Cat</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" id="editCatForm" name="editCatForm" role="form" ng-submit="catCtrl.editCat(editCatForm.$valid, editCat, editCatForm);" novalidate>
+												<div class="form-group ng-class:{'has-success': editCatForm.$submitted && editCatForm.name.$valid, 'has-error': editCatForm.$submitted && editCatForm.name.$invalid}">
+													<label for="name" class="control-label col-md-3">Name</label>
+													<div class="controls col-md-5">
+														<input type="text" class="form-control" name="name" ng-model="editCat.name" required />
+													</div>
+													<span class="help-inline" ng-show="editCatForm.$submitted && editCatForm.name.$error.required">Enter your cat's name!</span>
+												</div>											
+												<div class="form-group ng-class:{'has-success': editCatForm.$submitted && editCatForm.byear.$valid, 'has-error': editCatForm.$submitted && editCatForm.byear.$invalid}">
+													<label for="byear" class="control-label col-md-3">Birth Year</label>
+													<div class="controls col-md-4">
+														<input type="text" class="form-control" name="byear" ng-model="editCat.byear" value="{{editCat.byear}}" year />
+													</div>
+													<span class="help-inline" ng-show="editCatForm.$submitted && editCatForm.byear.$error.year">Year must be a number between {{minYear}} and {{maxYear}}!</span>
+												</div>
+												<div class="form-group ng-class:{'has-success': editCatForm.$submitted && editCatForm.pic.$valid, 'has-error': editCatForm.$submitted && editCatForm.pic.$invalid}">
+													<label class="control-label col-md-3" for="pic">Image URL</label>
+													<div class="controls col-md-6">
+														<input id="imgInputLg" type="url" name="pic" class="form-control" placeholder="http://" ng-model="editCat.pic" image />	
+													</div>
+													<img class="col-md-3" id="picPreviewLg" src="{{catCtrl.setPreview(editCatForm.pic.$valid, editCatForm.pic.$viewValue)}}" />
+													<span class="help-inline" ng-show="editCatForm.$submitted && editCatForm.pic.$invalid">Image not found!</span>
+												</div>
+												<div class="form-group ng-class:{'has-success': editCatForm.$submitted && editCatForm.breed.$valid, 'has-error': editCatForm.$submitted && editCatForm.breed.$invalid}">
+													<label class="control-label col-md-3" for="breed">Breed</label>
+													<div class="controls col-md-8">
+														<select class="form-control" name="breed" ng-model="editCat.breed" ng-options="breed for breed in breeds">
+															<option value="" selected="selected">--</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-md-offset-3 col-md-10">
+														<button id="submitEditCatBtn" type="submit" class="btn btn-default btn-sm">Save changes</button>
+														<button class="btn btn-default btn-sm" data-dismiss="modal" ng-click="catCtrl.clearForm(editCatForm);">Cancel</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="panel-body">
-							<img class="img-responsive center-block" src="{{catCtrl.curCat.pic}}" alt="{{catCtrl.curCat.name}}"><br/>
+							<img class="img-responsive center-block" src="{{curCat.pic}}" alt="{{curCat.name}}"><br/>
 							<ul class="list-group">
-								<li class="list-group-item" ng-show="catCtrl.curCat.year"><b>Born in</b> {{catCtrl.curCat.year}}</li>
-								<li class="list-group-item" ng-show="catCtrl.curCat.breed"><b>Breed:</b> {{catCtrl.curCat.breed}}</li>
+								<li class="list-group-item" ng-show="curCat.byear"><b>Born in</b> {{curCat.byear}}</li>
+								<li class="list-group-item" ng-show="curCat.breed"><b>Breed:</b> {{curCat.breed}}</li>
 							</ul>
 						</div>
 					</div>
-					<img id="placeholderPaws" src="img/pawprints.png" ng-if="!catCtrl.curCat">
+					<img id="placeholderPaws" src="img/pawprints.png" ng-if="!curCat">
 				</div>
 			</div>
 		</div>
@@ -172,5 +189,13 @@
 				<p class="text-muted">Olga Orlova, 2015</p>
 			</div>
 		</footer>
+		
+		
+		<script type="text/javascript">				
+			$(window).on('show.bs.modal', function (e) {
+				var height = $('#imgInputLg').outerHeight();
+				$('#picPreviewLg').attr('style', 'height:'+height+'px !important; width:auto !important');
+			});			
+		</script>
 	</body>
 </html>

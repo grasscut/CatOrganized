@@ -2,6 +2,15 @@
 	border-radius: 0 !important;
 }
 
+[type='submit'] {
+	background-color: #ccc !important;
+	border-color: #ccc !important;
+}
+
+[type='submit']:hover {
+	background-color: #EBEBEB !important;
+}
+
 .page-header {
 	margin-bottom: 0 !important;
 }
@@ -10,8 +19,25 @@
 	margin-top: 0;
 }
 
-.container, .left-menu.col-md-3 {
+.dropdown-menu {
+	min-width: 0 !important;
+}
+
+.dropdown-menu > li {
+	float: right;
+	width: 100% !important;
+}
+
+.left-menu {
 	padding-left: 0 !important;
+}
+
+.nav.nav-pills a, #searchBtn, .dropdown-menu a {
+	cursor: wait !important; /* temporary */
+}
+
+#wrapper {
+	padding: 0 !important;
 }
 
 .content, .right-panel {
@@ -26,6 +52,10 @@
 	background-color: white !important;
 }
 
+.table > tbody > tr:first-child > td {
+    border-top: none;
+}
+
 td {
 	overflow: hidden;
 }
@@ -36,27 +66,41 @@ td {
 	margin-right: 10px;
 }
 
+.form-group {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+.has-error .help-inline {
+	color: #B94A48;
+}
+
 .preview {
 	border: black 1px solid;
 	max-width: 250px;
 }
 
-.tooltip {
-	margin: 0 !important;
-	opacity: 100 !important;
-}
-
-.tooltip-arrow {
-	display: none;
-}
-
-.tooltip-inner {
-	padding: 0 !important;
-	margin: 0 !important;
-}
-
 .description {
 	cursor: pointer;
+}
+
+#picPreviewSm {
+	height: 30px;
+	width: auto;
+}
+
+.right-panel .glyphicon {
+	cursor: pointer;
+}
+
+.right-panel .glyphicon-pencil {
+	margin-left: 5px !important;
+}
+
+.modal-dialog {
+	width: 450px !important;
+	margin-left: -225px !important;
+	margin-top: 10% !important;
 }
 
 #placeholderPaws {
@@ -68,6 +112,8 @@ td {
 	width: 24px;
 	height: auto;
 }
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
